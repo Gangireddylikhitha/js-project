@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        #musicboxcontainer {
+            background: #fff;
+            width: 90vw;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            height: 90%;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        header i {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        header span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #roundbox {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #007bff;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          
+        }
+
+        .rotate {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #trackinfo h2 {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #trackinfo p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: #f5f5f5;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .control-btn:hover {
+            background: #007bff;
+            color: #fff;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .footer-btn {
+            background: #f5f5f5;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .footer-btn:hover {
+            background: #007bff;
+            color: #f5edf2;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #song-list-section {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #search-bar {
+            margin-bottom: 20px;
+        }
+
+        #search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #song-list {
+            list-style: none;
+            padding: 0;
+             overflow-y: scroll;
+        }
+
+        #song-list li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
+           
+        }
+
+        #song-list li:hover {
+            background: #f0f0f0;
+        }
+
+        #marquee-container {
+            width: 100%;
+            height: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        marquee.text {
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+       
+        #music-theme {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        #music-theme img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        #music-theme h2 {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #music-theme p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        #music-theme button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        #music-theme button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <main id="musicboxcontainer">
+        <header>
+            <i class="fas fa-music"></i>
+            <span>Play Fly</span>
+        </header>
+        <!-- <div class="volume-controls-column">
+            <span>🔊</span>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" orient="vertical">
+            <span>🔈</span>
+        </div> -->
+        <section id="player-section">
+            <div id="roundbox">
+                <img src="https://cache.desktopnexus.com/thumbseg/2085/2085811-bigthumbnail.jpg" style="width:100%"
+                    alt="Album Art">
+            </div>
+            <div id="trackinfo">
+                <h2>orange</h2>
+                <p>Nenu Nuvvantu</p>
+            </div>
+        </section>
+        <section id="song-list-section" class="hidden">
+            <div id="search-bar">
+                <input type="text" id="search-input" placeholder="Search for a song...">
+            </div>
+            <ul id="song-list">
+                <!-- Song list items will be injected here -->
+            </ul>
+        </section>
+        <nav>
+            <button class="control-btn"><i class="fas fa-repeat"></i></button>
+            <button class="control-btn"><i class="fas fa-backward"></i></button>
+            <button class="control-btn play-pause"><i class="fas fa-play"></i></button>
+            <button class="control-btn"><i class="fas fa-forward"></i></button>
+            <button class="control-btn"><i class="fas fa-heart"></i></button>
+        </nav>
+        <footer>
+            <button class="footer-btn music-btn"><i class="fas fa-music"></i></button>
+            <button class="footer-btn home-btn"><i class="fas fa-home"></i></button>
+        </footer>
+    </main>
+    <section id="music-theme">
+        <img src="https://via.placeholder.com/100" alt="Music Theme Image">
+        <h2>Music Theme</h2>
+        <p>Experience the rhythm and melody of your favorite tracks!</p>
+        <button id="back-to-player">Back to Player</button>
+    </section>
+    <audio id="audio-player" controls style="display: none;"></audio>
+    <script>
+        // DOM elements
+        const playPauseBtn = document.querySelector('.play-pause');
+        const playPauseIcon = playPauseBtn.querySelector('i');
+        const repeatBtn = document.querySelector('.fa-repeat');
+        const prevBtn = document.querySelector('.fa-backward');
+        const nextBtn = document.querySelector('.fa-forward');
+        const heartBtn = document.querySelector('.fa-heart');
+        const musicBtn = document.querySelector('.music-btn');
+        const homeBtn = document.querySelector('.home-btn');
+        const trackInfo = document.getElementById('trackinfo');
+        const albumArt = document.querySelector('#roundbox img');
+        const audioPlayer = document.getElementById('audio-player');
+        const playerSection = document.getElementById('player-section');
+        const songListSection = document.getElementById('song-list-section');
+        const searchInput = document.getElementById('search-input');
+        const songList = document.getElementById('song-list');
+        const musicTheme = document.getElementById('music-theme');
+        const backToPlayerBtn = document.getElementById('back-to-player');
+        // const volumeSlider = document.getElementById('volume-slider');
+
+        // State
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        const songs = [];
+
+       
+// const url = 'https://spotify23.p.rapidapi.com/playlist_tracks/?id=37i9dQZF1DX4Wsb4d7NKfP&offset=0&limit=100';
+const options = {
+	method: 'GET',
+	headers: {
+		'x-rapidapi-key': '8cc352f76bmsh37391c6af9eb08fp1ef049jsn87f62a67b77e',
+		'x-rapidapi-host': 'spotify23.p.rapidapi.com'
+	}
+};
+
+
+        // Function to fetch data from the Spotify API
+        async function fetchSongs() {
+            try {
+                const response = await fetch(url, options);
+                const data = await response.json();
+                // console.log(data); // Log the entire data for inspection
+                songs.push(...data.items.map(item => item.track));
+                displaySongs();
+            } catch (error) {
+                console.error('Error fetching songs:', error);
+            }
+        }
+
+        // Function to display songs in the list
+        function displaySongs() {
+            songList.innerHTML = songs.map((song, index) => `
+                <li onclick="playSong(${index})">
+                    <span>${song.name}</span> - <span>${song.artists[0].name}</span>
+                </li>
+            `).join('');
+        }
+
+        console.log(songList)
+
+        // Function to update the player with the selected song's details
+        function updatePlayer(song) {
+            audioPlayer.src = song.preview_url; 
+            trackInfo.querySelector('h2').textContent = song.name;
+            trackInfo.querySelector('p').textContent = song.artists[0].name;
+            albumArt.src = song.album.images[0].url; // Ensure this exists
+        }
+
+        // Function to toggle play/pause
+        function togglePlayPause() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                playPauseIcon.classList.replace('fa-pause', 'fa-play');
+                albumArt.classList.remove("rotate")
+            } else {
+                audioPlayer.play();
+                playPauseIcon.classList.replace('fa-play', 'fa-pause');
+                albumArt.classList.add("rotate")
+            }
+            isPlaying = !isPlaying;
+            // audioPlayer.volume = volumeSlider.value;
+        }
+
+        // Function to play a specific song
+        function playSong(index) {
+            currentSongIndex = index;
+            const song = songs[index];
+            
+            if (song.preview_url) {
+                updatePlayer(song);
+                togglePlayPause();
+            } else {
+                alert('This song cannot be played.');
+            }
+        }
+
+        heartBtn.addEventListener("dblclick",function(){
+            heartBtn.style.color="red"
+        })
+
+        heartBtn.addEventListener("click",function(){
+            heartBtn.style.color="black"
+        })
+        // function setVolume(event) {
+        //     audioPlayer.volume = event.target.value; // Use audioPlayer instead of audio
+        // }
+
+
+        // Event listeners
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        nextBtn.addEventListener('click', () => playSong((currentSongIndex + 1) % songs.length));
+        prevBtn.addEventListener('click', () => playSong((currentSongIndex - 1 + songs.length) % songs.length));
+        musicBtn.addEventListener('click', goToMusicLibrary);
+        homeBtn.addEventListener('click', showMusicTheme);
+        backToPlayerBtn.addEventListener('click', showPlayer);
+        // volumeSlider.addEventListener('input', setVolume);
+
+
+        // Function to toggle between player and song list view
+        function goToMusicLibrary() {
+            playerSection.classList.toggle('hidden');
+            songListSection.classList.toggle('hidden');
+        }
+
+        
+       
+        // Function to show music theme UI
+        function showMusicTheme() {
+            musicTheme.style.display = 'flex';
+            document.getElementById('musicboxcontainer').style.display = 'none';
+        }
+
+        // Function to show player UI
+        function showPlayer() {
+            musicTheme.style.display = 'none';
+            document.getElementById('musicboxcontainer').style.display = 'flex';
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredSongs = songs.filter(song =>
+                song.name.toLowerCase().includes(query) ||
+                song.artists[0].name.toLowerCase().includes(query)
+            );
+            songList.innerHTML = filteredSongs.map((song, index) =>`
+                <li onclick="playSong(${index})">
+                    <span>${song.name}</span> - <span>${song.artists[0].name}</span>
+                
+                </li>
+            `
+            
+        ).join('');
+        });
+
+        // Fetch songs on page load
+        fetchSongs();
+    </script>
+</body>
+
+</html>

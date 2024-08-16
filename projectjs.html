@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>music player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="sty.css">
+
+</head>
+
+<body>
+    <main id="musicboxcontainer">
+        <div id="datalist">
+            <ul id="lists">
+                <li>song1</li>
+                <li>song2</li>
+                <li>song3</li>
+                <li>song4</li>
+                <li>song5</li>
+            </ul>
+            <div id="trackContainer">
+                <form id="searchform">
+                    <i class="fa-solid fa-angle-left fa-2x" id="leftangle" style="color: rgb(29, 41, 216);"></i>
+                    <input type=text id="searchbar" placeholder="search  playlist" >
+                    <button id="search">❤️</button>
+                </form>
+                <div id="searchresult"></div>
+            </div>
+        </div>
+        <!-- /////////////////////// navbar//////////////////// -->
+        <nav>
+            <div class="navbar1">
+                <i class="fa-solid fa-angle-left fa-xl" id="left" style="color: rgb(126, 123, 128);"></i>
+            </div>
+            <div class="navbar2">
+                <i class="fa-solid fa-music fa-xl" id="music" style="color:#934ea7"></i>
+            </div>
+        </nav>
+        <!-- /////////////////////  img   volumebox    /////////////////////////// -->
+
+
+        <div class="volumebox">
+
+            <i class="fa-duotone fa-solid fa-volume-low fa-xs" class="low" style="color:rgb(164, 160, 162)"></i>
+            <input type="range" id="volumecontrol" class="volumecontrol" value="0" min="0" max="100"
+                style="opacity: 0.8" ;>
+            <i class="fa-duotone fa-solid fa-volume-high fa-xs" class="high" style="color: rgb(208, 202, 204);"></i>
+
+        </div>
+
+        <section>
+
+            <div id="roundbox"></div>
+        </section>
+
+        <!-- //////////////////////////////////////seekbar///////////////////////////////////////////// -->
+
+        <div class="seek">
+
+            <span id="currenttime">00:00</span>
+
+
+            <input type="range" id="seekBar" class=" seekbar" value="0" min="0" max="100" step="1" style="opacity: 0.7">
+
+            <span id="durationtime">00.00</span>
+
+        </div>
+
+
+        <!-- /////////////////////////////////////down buttons//////////////////////////////////////////////////////// -->
+
+        <footer class="buttons">
+
+            <i class="fa-solid fa-repeat fa-2x" class="repeat" style="color: #ccd2d2;"></i>
+            <i class="fa-solid fa-backward-step fa-2x" class="prev" style="color:#d2d2d0;"></i>
+            <i class="fa-regular fa-circle-play fa-3x" class="play" style="color: #d5d6d8;"></i>
+            <i class="fa-solid fa-forward-step fa-2x" class="next" style="color: #d3d3d0;"></i>
+            <i class="fa-duotone fa-solid fa-shuffle fa-2x" class="shuffle" style="color:rgb(220, 221, 223)"></i>
+
+
+        </footer>
+
+
+    </main>
+
+
+
+
+    <script src="./script.js"></script>
+
+</body>
+
+</html>

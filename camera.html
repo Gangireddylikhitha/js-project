@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Toggle with Close Button</title>
+    <style>
+        #cameraButton img {
+            cursor: pointer;
+        }
+        #cameraStream {
+            display: none;
+            width: 80%;
+            height: 80vh;
+            position: relative;
+        }
+        #closeButton {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="cameraButton">
+        <img src="camera-icon.png" alt="click it" />
+    </button>
+    <div id="cameraContainer">
+        <video id="cameraStream" autoplay></video>
+        <button id="closeButton">Close</button>
+    </div>
+
+    <script>    
+        let cameraStream = null;
+const cameraButton = document.getElementById('cameraButton');
+const videoElement = document.getElementById('cameraStream');
+const closeButton = document.getElementById('closeButton');
+const cameraContainer = document.getElementById('cameraContainer');
+
+cameraButton.addEventListener('click', () => {
+    if (cameraStream) {
+        // Stop the camera stream
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+        videoElement.style.display = 'none'; // Hide the video element
+        closeButton.style.display = 'none'; // Hide the close button
+    } else {
+        // Access and start the camera stream
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    cameraStream = stream;
+                    videoElement.srcObject = stream;
+                    videoElement.style.display = 'block'; // Show the video element
+                    closeButton.style.display = 'block'; // Show the close button
+                })
+                .catch(err => {
+                    console.error('Error accessing the camera: ', err);
+                });
+        } else {
+            console.log('Camera not supported on this device.');
+        }
+    }
+});
+
+closeButton.addEventListener('click', () => {
+    // Stop the camera stream
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+        videoElement.style.display = 'none'; // Hide the video element
+        closeButton.style.display = 'none'; // Hide the close button
+    }
+});
+
+    </script>
+</body>
+</html>
